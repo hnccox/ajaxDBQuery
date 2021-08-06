@@ -11,12 +11,15 @@ if(!isset($included)) {
 */
 // $_POST = json_decode($json, true);
 
-$require_path = "../../../../db";
+$require_path = realpath($_SERVER['DOCUMENT_ROOT']."/../../db");
 require_once("{$require_path}/{$_POST['db']}.php");
 
 class ajaxDBQuery {
     // Properties
     public $_POST;
+    public $_GET;
+    public $_PUT;
+    public $_DELETE;
 
     // Methods
     function __construct() {
