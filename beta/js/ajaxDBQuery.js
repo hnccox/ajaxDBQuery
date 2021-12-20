@@ -34,8 +34,7 @@ function create(method, sql, callback) {
 }
 
 function read(method, sql, callback) {
-
-	console.log(sql);
+	//console.log(sql);
 
 	let xhr = new XMLHttpRequest(),
 		url = sql.url;
@@ -48,7 +47,7 @@ function read(method, sql, callback) {
 		if (this.readyState === XMLHttpRequest.DONE) {
 			if (this.status == 200) {
 				// retrieve data
-				console.log(this.responseText);
+				//console.log(this.responseText);
 				let obj = JSON.parse(this.responseText);
 				callback({"type": obj.type || "success", "status": obj.status || this.status, "statusText": obj.statusText || this.statusText, "data": obj.data || {}, "message": obj.message || "Retrieved data successfully"});
 			} else if (this.status >= 500) {

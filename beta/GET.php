@@ -1,11 +1,5 @@
 <?php
 
-// Select existing
-
-// if(!isset($included)) {
-//     require_once('ajaxDBQuery.php');
-// }
-
 require_once('ajaxDBQuery.php');
 
 class GET extends ajaxDBQuery
