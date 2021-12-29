@@ -1,7 +1,5 @@
 <?php
 
-require_once('ajaxDBQuery.php');
-
 class GET extends ajaxDBQuery
 {
 
