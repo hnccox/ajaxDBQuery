@@ -17,16 +17,16 @@ function create(method, sql, callback) {
 			if (this.status == 200) {
 				// retrieve data
 				let obj = JSON.parse(this.responseText);
-				callback({"type": obj.type, "status": obj.status, "statusText": obj.statusText, "data": obj.data, "message": obj.message});
+				callback({ "type": obj.type, "status": obj.status, "statusText": obj.statusText, "data": obj.data, "message": obj.message });
 			} else if (this.status >= 500) {
 				// internal server error
-				callback({"type": "internal server error", "status": this.status, "statusText": this.statusText});
+				callback({ "type": "internal server error", "status": this.status, "statusText": this.statusText });
 			} else if (this.status >= 402 && this.status <= 420) {
 				// error
-				callback({"type": "error", "status": this.status, "statusText": this.statusText});
+				callback({ "type": "error", "status": this.status, "statusText": this.statusText });
 			} else if (this.status == 400 || this.status == 401) {
 				// bad request & unauthorized error
-				callback({"type": "bad request", "status": this.status, "statusText": this.statusText});
+				callback({ "type": "bad request", "status": this.status, "statusText": this.statusText });
 			}
 		}
 	}
@@ -38,8 +38,8 @@ function read(method, sql, callback) {
 
 	let xhr = new XMLHttpRequest(),
 		url = sql.url;
-		if(sql.db) { url += "?db="+JSON.stringify(sql.db) }
-		if(sql.query) { url += "&query="+JSON.stringify(sql.query) }
+	if (sql.db) { url += "?db=" + JSON.stringify(sql.db) }
+	if (sql.query) { url += "&query=" + JSON.stringify(sql.query) }
 
 	xhr.open(method, url, true);
 	xhr.setRequestHeader('Content-Type', 'application/json');
@@ -47,18 +47,18 @@ function read(method, sql, callback) {
 		if (this.readyState === XMLHttpRequest.DONE) {
 			if (this.status == 200) {
 				// retrieve data
-				console.log(this.responseText);
+				//console.log(this.responseText);
 				let obj = JSON.parse(this.responseText);
-				callback({"type": obj.type || "success", "status": obj.status || this.status, "statusText": obj.statusText || this.statusText, "data": obj.data || {}, "message": obj.message || "Retrieved data successfully"});
+				callback({ "type": obj.type || "success", "status": obj.status || this.status, "statusText": obj.statusText || this.statusText, "data": obj.data || {}, "message": obj.message || "Retrieved data successfully" });
 			} else if (this.status >= 500) {
 				// internal server error
-				callback({"type": "internal server error", "status": this.status, "statusText": this.statusText});
+				callback({ "type": "internal server error", "status": this.status, "statusText": this.statusText });
 			} else if (this.status >= 402 && this.status <= 420) {
 				// error
-				callback({"type": "error", "status": this.status, "statusText": this.statusText});
+				callback({ "type": "error", "status": this.status, "statusText": this.statusText });
 			} else if (this.status == 400 || this.status == 401) {
 				// bad request & unauthorized error
-				callback({"type": "bad request", "status": this.status || 400, "statusText": this.statusText});
+				callback({ "type": "bad request", "status": this.status || 400, "statusText": this.statusText });
 			}
 		}
 	}
@@ -129,12 +129,12 @@ function del(method, sql, callback) {
 
 function ajaxDBQuery(method, sql, callback = () => { }) {
 	console.log("ajaxDBQuery");
-	
+
 	if (sql.url == null) {
-		callback({"type": "error", "status": "400", "message": "Bad Request"});
+		callback({ "type": "error", "status": "400", "message": "Bad Request" });
 		return;
 	} else {
-		switch(method) {
+		switch (method) {
 			case "POST":
 				create(method, sql, callback)
 				break;
@@ -147,7 +147,7 @@ function ajaxDBQuery(method, sql, callback = () => { }) {
 			case "DELETE":
 				del(method, sql, callback)
 				break;
-			
+
 		}
 	}
 }
