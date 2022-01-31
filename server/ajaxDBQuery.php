@@ -6,13 +6,13 @@ error_reporting(E_ALL);
 
 class ajaxDBQuery 
 {
-    // Properties
-    public $pdo;
+	// Properties
+	public $pdo;
 	public $sql;
 	public $params;
 
-    // Methods
-    function __construct(string $db) {
+	// Methods
+	function __construct(string $db) {
 	
 		$db = json_decode($db, true);
 

@@ -133,23 +133,24 @@ function ajaxDBQuery(method, sql, callback = () => { }) {
 	if (sql.url == null) {
 		callback({ "type": "error", "status": "400", "message": "Bad Request" });
 		return;
-	} else {
-		switch (method) {
-			case "POST":
-				create(method, sql, callback)
-				break;
-			case "GET":
-				read(method, sql, callback)
-				break;
-			case "PUT":
-				update(method, sql, callback)
-				break;
-			case "DELETE":
-				del(method, sql, callback)
-				break;
-
-		}
 	}
+
+	switch (method) {
+		case "POST":
+			create(method, sql, callback)
+			break;
+		case "GET":
+			read(method, sql, callback)
+			break;
+		case "PUT":
+			update(method, sql, callback)
+			break;
+		case "DELETE":
+			del(method, sql, callback)
+			break;
+
+	}
+
 }
 
 export default ajaxDBQuery;

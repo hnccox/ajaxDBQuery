@@ -3,31 +3,31 @@
 class GET extends ajaxDBQuery
 {
 
-    public $_GET;
+	public $_GET;
 
 	function __construct() {
 
 		parent::__construct($_GET['db']);
 
-        $_GET['query'] = json_decode($_GET['query'], true);
+		$_GET['query'] = json_decode($_GET['query'], true);
 
-        // ------------------------------------------------
-        
-        $page = 0;
-        if (isset($_GET['query']['offset']) && !empty($query['offset'])) {
-        $page = filter_var($_GET['query']['offset'], FILTER_SANITIZE_NUMBER_INT);
-        }
-        $per_page = 20;
-        if (isset($_GET['query']['limit']) && !empty($_GET['query']['limit'])) {
-            $per_page = filter_var($_GET['query']['limit'], FILTER_SANITIZE_NUMBER_INT);
-        }
+		// ------------------------------------------------
+		
+		$page = 0;
+		if (isset($_GET['query']['offset']) && !empty($query['offset'])) {
+		$page = filter_var($_GET['query']['offset'], FILTER_SANITIZE_NUMBER_INT);
+		}
+		$per_page = 20;
+		if (isset($_GET['query']['limit']) && !empty($_GET['query']['limit'])) {
+			$per_page = filter_var($_GET['query']['limit'], FILTER_SANITIZE_NUMBER_INT);
+		}
 
-        $params = [];
-        $sqlcount = "SELECT count(*) AS total_records FROM {$_GET['query']['0']['select']['from']['table']}";
+		$params = [];
+		$sqlcount = "SELECT count(*) AS total_records FROM {$_GET['query']['0']['select']['from']['table']}";
 
-        if(isset($_GET['query']['1']['where'])) {
-            $sqlcount .= " WHERE ";
-            for($i = 0; $i < count($_GET['query']['1']['where']); $i++) {
+		if(isset($_GET['query']['1']['where'])) {
+			$sqlcount .= " WHERE ";
+			for($i = 0; $i < count($_GET['query']['1']['where']); $i++) {
 				if($i !== 0) {
 					$sqlcount .= " AND ";
 				}
@@ -54,24 +54,24 @@ class GET extends ajaxDBQuery
 							break;
 					}	
 				}
-            }
-        }
+			}
+		}
 
-        $stmt = $this->pdo->prepare($sqlcount);
-        $stmt->execute($params);
-        $row = $stmt->fetch();
-        $total_records = $row['total_records'];
-    
-        $total_pages = ceil($total_records / $per_page);
-    
-        $offset = ($page) * $per_page;
-        
-        // ------------------------------------------------
-        
-        $this->db = json_decode($_GET['db'], true);
-        $this->table = "";
-        $this->columns = "";
-        $this->query = $_GET['query'];
+		$stmt = $this->pdo->prepare($sqlcount);
+		$stmt->execute($params);
+		$row = $stmt->fetch();
+		$total_records = $row['total_records'];
+	
+		$total_pages = ceil($total_records / $per_page);
+	
+		$offset = ($page) * $per_page;
+		
+		// ------------------------------------------------
+		
+		$this->db = json_decode($_GET['db'], true);
+		$this->table = "";
+		$this->columns = "";
+		$this->query = $_GET['query'];
 		$this->params = [];
 		$this->sql = "";
 
@@ -115,32 +115,32 @@ class GET extends ajaxDBQuery
 			}
 		}
 
-        // ------------------------------------------------
+		// ------------------------------------------------
 
-        $stmt = $this->pdo->prepare($this->sql);
-        $stmt->execute($this->params);
+		$stmt = $this->pdo->prepare($this->sql);
+		$stmt->execute($this->params);
 
-        $result = [];
-        //$result = $stmt->fetchAll();
-        $i = 0;
-        while ( ($row = $stmt->fetch(PDO::FETCH_ASSOC) ) !== false) {
-            $result[] = $row;
-            $i++;
-        }
-        $data = [];
-        $data["db"] = $this->db;
-        $data["table"] = $this->table;
-        $data["columns"] = $this->columns;
-        $data["query"] = $this->sql;
-        $data["dataset"] = $result;
-        $data["records"] = $i;
-        $data["totalrecords"] = $total_records;
-        $result["sql"] = $this->sql;
-        $result["params"] = $this->params;
-        $this->response = array("type"=>"success", "status"=>"200", "statusText"=>"OK", "data"=>$data, "message"=>"Retrieved all data successfully");
-    }
+		$result = [];
+		//$result = $stmt->fetchAll();
+		$i = 0;
+		while ( ($row = $stmt->fetch(PDO::FETCH_ASSOC) ) !== false) {
+			$result[] = $row;
+			$i++;
+		}
+		$data = [];
+		$data["db"] = $this->db;
+		$data["table"] = $this->table;
+		$data["columns"] = $this->columns;
+		$data["query"] = $this->sql;
+		$data["dataset"] = $result;
+		$data["records"] = $i;
+		$data["totalrecords"] = $total_records;
+		$result["sql"] = $this->sql;
+		$result["params"] = $this->params;
+		$this->response = array("type"=>"success", "status"=>"200", "statusText"=>"OK", "data"=>$data, "message"=>"Retrieved all data successfully");
+	}
 
-    private function operators($statement) {
+	private function operators($statement) {
 		switch($key) {
 			//case "(":
 			//case ")":
@@ -167,16 +167,16 @@ class GET extends ajaxDBQuery
 					for($i = 0; $i < count($value); $i++) {
 						if($i == 0) {
 							$this->sql .= "{$value[$i]}";
-                            $this->columns .= "{$value[$i]}";
+							$this->columns .= "{$value[$i]}";
 						} else {
 							$this->sql .= ", {$value[$i]}";
-                            $this->columns .= ",{$value[$i]}";
+							$this->columns .= ",{$value[$i]}";
 						}
 					}
 					break;
 				case "from":
 					$this->sql .= " FROM {$value['table']}";
-                    $this->table .= "{$value['table']}";
+					$this->table .= "{$value['table']}";
 					($value['as'])? $this->sql .= " AS {$value['as']}": $this->sql .= "";
 					break;
 				default:
@@ -333,10 +333,10 @@ class GET extends ajaxDBQuery
 		$this->sql .= " OFFSET {$statement}";
 	}
 
-    public function return($response) {
-        header('Content-Type: application/json');
-        echo json_encode($response, true);
-    }
+	public function return($response) {
+		header('Content-Type: application/json');
+		echo json_encode($response, true);
+	}
 
 }
 
