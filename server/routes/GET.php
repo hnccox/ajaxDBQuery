@@ -335,7 +335,7 @@ class GET extends ajaxDBQuery
 
 	public function return($response) {
 		header('Content-Type: application/json');
-		echo json_encode($response, true);
+		echo json_encode($response);
 	}
 
 }

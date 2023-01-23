@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 // API Login
 require_once($_SERVER['DOCUMENT_ROOT']."/class2.php");
@@ -14,6 +14,7 @@ switch($_SERVER['REQUEST_METHOD']) {
 		$query = new GET();
 		if(!isset($included)) {
 			$query->return($query->response);
+			exit;																
 		}
 		break;
 	case "PUT":
